@@ -1,0 +1,22 @@
+name: CI/CD with Dockerized HTML
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Build Docker image
+        run: docker build -t my-docker-app .
+      - name: Push Docker image to registry
+        run: docker tag my-docker-app your-username/my-docker-app:latest
+        env:
+          DOCKER_USERNAME: ${{ DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ DOCKER_PASSWORD }}
+      - name: Login to Docker Hub
+        run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+      - name: Push Docker image
+        run: docker push surajphawade/my-docker-app:latest
