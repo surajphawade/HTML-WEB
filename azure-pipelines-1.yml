@@ -1,29 +1,23 @@
-# Docker
-# Build a Docker image
-# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
-
 trigger:
 - master
 
-resources:
-- repo: self
+pr:
+- '*'
+
+pool:
+  name : 'Default'
 
 variables:
-  tag: '$(Build.BuildId)'
+  dockerImageName: 'my-httpd-image'
 
-stages:
-- stage: Build
-  displayName: Build image
-  jobs:
-  - job: Build
-    displayName: Build
-    pool:
-      name: Default
-    steps:
-    - task: Docker@2
-      displayName: Build an image
-      inputs:
-        command: build
-        dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
-        tags: |
-          $(tag)
+steps:
+- checkout: self
+
+- task: Docker@2
+  inputs:
+    containerRegistry: 'DockerHubConnection' # Replace with your Docker registry connection name if necessary
+    repository: 'your-docker-username/$(dockerImageName)'
+    command: 'build'
+    Dockerfile: '**/Dockerfile'
+    tags: |
+      $(Build.BuildId)
