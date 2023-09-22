@@ -13,12 +13,10 @@ variables:
 steps:
 - checkout: self
 
+
 - task: Docker@2
   inputs:
-    containerRegistry: 'SurajDemoConnection' # Replace with your Docker registry connection name if necessary
-    repository: 'surajsp9/$(dockerImageName)'
-    command: 'build'
+    containerRegistry: 'SurajDemoConnection'
+    repository: 'surajsp9/repo1'
+    command: 'buildAndPush'
     Dockerfile: 'Dockerfile'
-    tags: |
-      $(Build.BuildId)
-
