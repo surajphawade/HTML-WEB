@@ -18,7 +18,7 @@ steps:
     containerRegistry: 'SurajDemoConnection' # Replace with your Docker registry connection name if necessary
     repository: 'surajsp9/$(dockerImageName)'
     command: 'build'
-    Dockerfile: '**/Dockerfile'
+    Dockerfile: 'Dockerfile'
     tags: |
       $(Build.BuildId)
 
